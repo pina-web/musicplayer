@@ -5,166 +5,169 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#f4f4f7">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="하루의 음악">
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon-192.png">
-<title>하루의 음악</title>
+<title>하루의 음악 v2</title>
 <style>
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-:root{--bg:#f4f4f7;--card:#fff;--text:#171719;--muted:#7d7d85;--line:#dedee3;--soft:#ececf1;--accent:#fa3158}
-html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text)}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;padding:calc(env(safe-area-inset-top) + 16px) 16px calc(env(safe-area-inset-bottom) + 28px)}
-.wrap{max-width:560px;margin:auto}
-.top{display:flex;justify-content:space-between;align-items:center;margin:5px 0 15px}
-h1{font-size:25px;margin:0;letter-spacing:-.7px}.sub{font-size:10px;color:var(--muted);margin-top:3px}
-.install{border:0;background:#fff;border-radius:13px;padding:10px 12px;font-size:11px;font-weight:750}
-.card{background:var(--card);border-radius:25px;padding:16px;margin-bottom:14px;box-shadow:0 10px 35px rgba(0,0,0,.06)}
-.art{aspect-ratio:1;border-radius:22px;background:linear-gradient(145deg,#ffc9d3,#ffe0b9,#c6e3ff,#dccfff);display:grid;place-items:center;font-size:56px;transition:.3s}
-.title{font-size:22px;font-weight:800;margin:16px 0 5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.meta{font-size:12px;color:#777}
-.start{width:100%;border:0;background:#171719;color:#fff;padding:16px;border-radius:18px;font-size:17px;font-weight:800;margin-top:15px}
-.controls{display:flex;justify-content:center;align-items:center;gap:16px;margin-top:12px}.controls button{border:0;background:var(--soft);width:58px;height:58px;border-radius:50%;font-size:24px}.controls .play{background:#171719;color:#fff;width:72px;height:72px}
-.row{display:flex;align-items:center;gap:10px;margin-top:14px}.row input{width:100%}
-.status{font-size:12px;padding:10px 12px;border-radius:13px;background:#f0f0f3;margin-top:12px}.ok{color:#14833b}.bad{color:#b42318}
-h2{font-size:16px;margin:0 0 12px}.genres{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.genre{border:1px solid var(--line);background:#fff;border-radius:16px;padding:13px;text-align:left}.genre b{display:block;font-size:13px}.genre span{display:block;font-size:10px;color:#888;margin-top:4px}.genre.on{background:#171719;color:#fff;border-color:#171719}.genre.on span{color:#bbb}
-.all{grid-column:1/-1}
-.preset{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}.preset button{border:0;background:var(--soft);border-radius:14px;padding:11px;font-size:11px;font-weight:700}
-.modegrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mode{border:1px solid var(--line);background:#fff;border-radius:16px;padding:12px;text-align:left}.mode b{display:block;font-size:12px}.mode span{display:block;color:#999;font-size:10px;margin-top:4px}
-.note{font-size:11px;color:#777;line-height:1.65;margin-top:12px}
-.sheet{display:none;position:fixed;inset:0;background:rgba(0,0,0,.38);padding:20px;z-index:20;align-items:flex-end}.sheet.show{display:flex}.sheetin{background:#fff;width:min(560px,100%);margin:auto;border-radius:24px;padding:18px}.sheetin h3{margin:0 0 8px}.sheetin p{font-size:12px;line-height:1.7;color:#666}.sheetin button{width:100%;border:0;background:#171719;color:#fff;padding:12px;border-radius:14px;font-weight:750}
+body{margin:0;background:#f4f4f7;color:#171719;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans KR",sans-serif;padding:16px}
+.wrap{max-width:560px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;margin:6px 0 14px}
+h1{font-size:25px;margin:0}.ver{font-size:10px;color:#888;margin-top:3px}.badge{font-size:10px;background:#fff;border-radius:999px;padding:8px 10px}
+.card{background:#fff;border-radius:24px;padding:16px;margin-bottom:14px;box-shadow:0 10px 35px rgba(0,0,0,.06)}
+.art{aspect-ratio:1;border-radius:22px;background:linear-gradient(145deg,#ffc9d3,#ffe0b9,#c6e3ff,#dccfff);display:grid;place-items:center;font-size:58px}
+.title{font-size:22px;font-weight:800;margin:15px 0 5px}.meta{font-size:12px;color:#777}
+.primary{width:100%;border:0;background:#171719;color:#fff;border-radius:17px;padding:15px;font-size:16px;font-weight:800;margin-top:14px}
+.test{width:100%;border:1px solid #ddd;background:#fff;border-radius:15px;padding:12px;font-size:12px;font-weight:750;margin-top:8px}
+.controls{display:flex;align-items:center;justify-content:center;gap:15px;margin:12px 0}.controls button{border:0;background:#ededf2;width:58px;height:58px;border-radius:50%;font-size:24px}.controls .play{width:72px;height:72px;background:#171719;color:#fff}
+.status{background:#f0f0f3;border-radius:13px;padding:10px 12px;font-size:11px;line-height:1.55}.ok{color:#127c38}.bad{color:#b42318}
+h2{font-size:16px;margin:0 0 12px}.genres{display:grid;grid-template-columns:1fr 1fr;gap:8px}.genre{border:1px solid #ddd;background:#fff;border-radius:15px;padding:12px;text-align:left}.genre b{display:block;font-size:12px}.genre span{font-size:10px;color:#888}.genre.on{background:#171719;color:#fff}.genre.on span{color:#bbb}.all{grid-column:1/-1}
+.vol{display:flex;gap:10px;align-items:center;margin-top:12px}.vol input{width:100%}
+.note{font-size:10.5px;color:#777;line-height:1.65;margin-top:10px}
 </style>
 </head>
 <body>
 <div class="wrap">
-<div class="top">
-  <div><h1>하루의 음악</h1><div class="sub">GITHUB PAGES · PWA · 200 ORIGINAL TRACKS</div></div>
-  <button class="install" id="installBtn">앱 설치</button>
-</div>
+<div class="top"><div><h1>하루의 음악</h1><div class="ver">AUDIO FIX v2 · GitHub Pages</div></div><div class="badge">200 TRACKS</div></div>
 
 <div class="card">
-  <div class="art" id="art">♪</div>
-  <div class="title" id="trackTitle">오늘의 랜덤 플레이</div>
-  <div class="meta" id="trackMeta">장르를 고른 뒤 ‘오디오 시작’을 눌러주세요.</div>
-  <button class="start" id="startBtn" type="button">오디오 시작</button>
-  <div class="controls">
-    <button id="prevBtn" type="button">‹</button>
-    <button class="play" id="playBtn" type="button">▶</button>
-    <button id="nextBtn" type="button">›</button>
-  </div>
-  <div class="row"><span style="font-size:11px">볼륨</span><input id="volume" type="range" min="0" max="100" value="55"></div>
-  <div class="status" id="status">상태: 오디오 시작 전</div>
+ <div class="art" id="art">♪</div>
+ <div class="title" id="trackTitle">오늘의 랜덤 플레이</div>
+ <div class="meta" id="trackMeta">먼저 ‘소리 테스트’를 눌러 소리가 나는지 확인하세요.</div>
+ <button class="test" id="testBtn">🔊 소리 테스트</button>
+ <button class="primary" id="startBtn">음악 시작</button>
+ <div class="controls"><button id="prevBtn">‹</button><button class="play" id="playBtn">▶</button><button id="nextBtn">›</button></div>
+ <div class="vol"><span style="font-size:11px">볼륨</span><input id="volume" type="range" min="0" max="100" value="85"></div>
+ <div class="status" id="status">상태: 준비 완료</div>
 </div>
 
 <div class="card">
 <h2>장르 선택</h2>
 <div class="genres">
-  <button class="genre all on" data-genre="all" type="button"><b>모든 장르 섞기</b><span>총 200곡</span></button>
-  <button class="genre on" data-genre="classic" type="button"><b>♩ 클래식</b><span>40곡</span></button>
-  <button class="genre on" data-genre="cinema" type="button"><b>◌ 시네마틱 OST풍</b><span>40곡</span></button>
-  <button class="genre on" data-genre="anime" type="button"><b>✧ 애니메이션 OST풍</b><span>40곡</span></button>
-  <button class="genre on" data-genre="ballad" type="button"><b>♡ 발라드풍</b><span>40곡</span></button>
-  <button class="genre on" data-genre="bright" type="button"><b>☀ 경쾌한 음악</b><span>40곡</span></button>
+ <button class="genre all on" data-genre="all"><b>모든 장르 섞기</b><span>총 200곡</span></button>
+ <button class="genre on" data-genre="classic"><b>♩ 클래식</b><span>40곡</span></button>
+ <button class="genre on" data-genre="cinema"><b>◌ 시네마틱 OST풍</b><span>40곡</span></button>
+ <button class="genre on" data-genre="anime"><b>✧ 애니메이션 OST풍</b><span>40곡</span></button>
+ <button class="genre on" data-genre="ballad"><b>♡ 발라드풍</b><span>40곡</span></button>
+ <button class="genre on" data-genre="bright"><b>☀ 경쾌한 음악</b><span>40곡</span></button>
 </div>
-<div class="preset">
-  <button id="calmBtn" type="button">잔잔하게</button>
-  <button id="focusBtn" type="button">전시 집중</button>
-  <button id="happyBtn" type="button">밝게</button>
+<p class="note">소리 테스트가 들리는데 음악만 안 들리면 화면의 상태 문구를 확인하세요. 소리 테스트도 안 들리면 iPhone 측면 무음 스위치/미디어 음량/블루투스 출력 장치를 확인해야 합니다.</p>
 </div>
 </div>
 
-<div class="card">
-<h2>원터치 모드</h2>
-<div class="modegrid">
-  <button class="mode" data-min="60"><b>수업 1시간</b><span>잔잔한 장르 중심</span></button>
-  <button class="mode" data-min="240"><b>전시 4시간</b><span>자동 랜덤 재생</span></button>
-  <button class="mode" data-min="480"><b>전시 8시간</b><span>종일 전시용</span></button>
-  <button class="mode" data-min="720"><b>카페 12시간</b><span>밝고 편안하게</span></button>
-</div>
-<p class="note">iPhone에서는 첫 재생 시 반드시 ‘오디오 시작’을 직접 눌러야 합니다. GitHub Pages 주소로 열면 ChatGPT/파일 미리보기와 달리 터치와 오디오가 정상 실행됩니다.</p>
-</div>
-</div>
-
-<div class="sheet" id="sheet"><div class="sheetin">
-<h3>홈 화면에 설치</h3>
-<p><b>iPhone:</b> Safari에서 이 사이트를 열고 공유 버튼 → <b>홈 화면에 추가</b>를 누르세요.<br><br><b>Android:</b> Chrome 메뉴 → <b>앱 설치</b> 또는 <b>홈 화면에 추가</b>를 누르세요.</p>
-<button id="closeSheet">확인</button>
-</div></div>
+<audio id="fallbackAudio" src="./audio/test.wav" preload="auto" playsinline></audio>
 
 <script>
 (function(){
 "use strict";
 var AudioCtx=window.AudioContext||window.webkitAudioContext;
-var ctx=null,master=null,timer=null,playing=false,current=null,beatIndex=0,nextTime=0,endTimer=null;
+var ctx=null,master=null,timer=null,playing=false,current=null,beatIndex=0,nextTime=0;
 var selected={classic:true,cinema:true,anime:true,ballad:true,bright:true},history=[];
-var GENRES={
+var keys=["classic","cinema","anime","ballad","bright"];
+var G={
  classic:{name:"클래식",bpm:68,scale:[0,2,4,5,7,9,11],wave:"triangle"},
  cinema:{name:"시네마틱 OST풍",bpm:62,scale:[0,2,3,5,7,8,10],wave:"sine"},
  anime:{name:"애니메이션 OST풍",bpm:84,scale:[0,2,4,7,9],wave:"triangle"},
  ballad:{name:"발라드풍",bpm:72,scale:[0,2,4,5,7,9,11],wave:"sine"},
  bright:{name:"경쾌한 음악",bpm:102,scale:[0,2,4,7,9],wave:"triangle"}
 };
-var tracks=[],A=["고요한","따뜻한","은은한","포근한","맑은","느린","반짝이는","부드러운","평온한","작은"],N=["창가","오후","정원","구름","산책","빛","물결","기억","하늘","쉼"],keys=["classic","cinema","anime","ballad","bright"];
-for(var g=0;g<keys.length;g++)for(var i=0;i<40;i++)tracks.push({id:g*40+i+1,genre:keys[g],title:A[(i+g*2)%10]+" "+N[(i*3+g)%10]+" "+("0"+(i+1)).slice(-2),bpm:GENRES[keys[g]].bpm+((i*7+g*3)%13)-6,root:48+((i+g)%7)});
-
+var A=["고요한","따뜻한","은은한","포근한","맑은","느린","반짝이는","부드러운","평온한","작은"];
+var N=["창가","오후","정원","구름","산책","빛","물결","기억","하늘","쉼"];
+var tracks=[];
+for(var gi=0;gi<5;gi++)for(var i=0;i<40;i++)tracks.push({id:gi*40+i+1,genre:keys[gi],title:A[(i+gi*2)%10]+" "+N[(i*3+gi)%10]+" "+("0"+(i+1)).slice(-2),bpm:G[keys[gi]].bpm+((i*7+gi*3)%13)-6,root:48+((i+gi)%7)});
 function el(id){return document.getElementById(id)}
 function hz(m){return 440*Math.pow(2,(m-69)/12)}
-function status(msg,ok){var s=el("status");s.textContent="상태: "+msg;s.className="status "+(ok?"ok":"bad")}
-function initAudio(){
+function stat(s,ok){var x=el("status");x.textContent="상태: "+s+(ctx?" · AudioContext "+ctx.state:"");x.className="status "+(ok?"ok":"bad")}
+function init(){
  if(ctx)return true;
- if(!AudioCtx){status("Web Audio 미지원 브라우저",false);return false}
- try{ctx=new AudioCtx();master=ctx.createGain();master.gain.value=Number(el("volume").value)/100*.35;master.connect(ctx.destination);return true}catch(e){status("오디오 초기화 실패",false);return false}
+ if(!AudioCtx){stat("Web Audio 미지원",false);return false}
+ try{
+   ctx=new AudioCtx();
+   master=ctx.createGain();
+   master.gain.value=Number(el("volume").value)/100*0.75;
+   master.connect(ctx.destination);
+   return true;
+ }catch(e){stat("AudioContext 생성 실패: "+e.message,false);return false}
 }
 function tone(freq,when,dur,gain,wave){
- var o=ctx.createOscillator(),g=ctx.createGain();o.type=wave||"sine";o.frequency.setValueAtTime(freq,when);
- g.gain.setValueAtTime(.0001,when);g.gain.exponentialRampToValueAtTime(gain,when+.02);g.gain.exponentialRampToValueAtTime(.0001,when+dur);
+ var o=ctx.createOscillator(),g=ctx.createGain();
+ o.type=wave||"sine";o.frequency.setValueAtTime(freq,when);
+ g.gain.setValueAtTime(.0001,when);
+ g.gain.exponentialRampToValueAtTime(gain,when+.015);
+ g.gain.exponentialRampToValueAtTime(.0001,when+dur);
  o.connect(g);g.connect(master);o.start(when);o.stop(when+dur+.03)
 }
-function available(){return tracks.filter(function(t){return selected[t.genre]})}
-function pick(){var a=available();if(!a.length){selected.classic=true;a=available()}return a[Math.floor(Math.random()*a.length)]}
+function unlock(){
+ if(!init())return Promise.reject(new Error("init failed"));
+ return Promise.resolve(ctx.resume?ctx.resume():null).then(function(){
+   var t=ctx.currentTime+.03;
+   tone(523.25,t,.12,.14,"sine");
+   stat("오디오 잠금 해제 성공",true);
+ })
+}
+function testSound(){
+ var a=el("fallbackAudio");
+ a.currentTime=0;a.volume=1;
+ var p=a.play();
+ if(p&&p.then)p.then(function(){stat("테스트 WAV 재생 성공",true)}).catch(function(){
+   unlock().catch(function(){stat("테스트 재생 실패",false)})
+ });
+ else stat("테스트 WAV 재생 요청",true)
+}
+function avail(){return tracks.filter(function(t){return selected[t.genre]})}
+function pick(){var a=avail();return a[Math.floor(Math.random()*a.length)]||tracks[0]}
 function setTrack(t){
  if(current)history.push(current);current=t;beatIndex=0;
- el("trackTitle").textContent=t.title;el("trackMeta").textContent=GENRES[t.genre].name+" · "+t.bpm+" BPM · 오리지널 연주";
+ el("trackTitle").textContent=t.title;el("trackMeta").textContent=G[t.genre].name+" · "+t.bpm+" BPM · 오리지널 연주";
  var c={classic:"#d9dbef",cinema:"#b9c8df",anime:"#ffd2e2",ballad:"#e8d9d2",bright:"#ffe0a3"}[t.genre];
  el("art").style.background="linear-gradient(145deg,"+c+",#fff,#cfe0ff)"
 }
 function schedule(){
  if(!playing||!ctx||!current)return;
- var ge=GENRES[current.genre],beat=60/current.bpm;
- while(nextTime<ctx.currentTime+2.5){
-  var sc=ge.scale,b=beatIndex,root=current.root;
-  if(b%4===0){tone(hz(root),nextTime,beat*1.8,.022,"sine");tone(hz(root+12+sc[0]),nextTime,beat*1.6,.012,ge.wave);tone(hz(root+12+sc[2%sc.length]),nextTime,beat*1.6,.009,ge.wave);tone(hz(root+12+sc[4%sc.length]),nextTime,beat*1.6,.008,ge.wave)}
-  tone(hz(root+24+sc[(b+current.id)%sc.length]),nextTime+beat*.08,beat*.55,.006,ge.wave);
-  nextTime+=beat;beatIndex++;if(beatIndex>128)setTrack(pick())
+ var ge=G[current.genre],beat=60/current.bpm;
+ while(nextTime<ctx.currentTime+2.0){
+   var sc=ge.scale,b=beatIndex,root=current.root,w=nextTime;
+   if(b%4===0){
+     tone(hz(root),w,beat*1.7,.10,"sine");
+     tone(hz(root+12+sc[0]),w,beat*1.35,.065,ge.wave);
+     tone(hz(root+12+sc[2%sc.length]),w,beat*1.35,.05,ge.wave);
+     tone(hz(root+12+sc[4%sc.length]),w,beat*1.35,.045,ge.wave);
+   }
+   tone(hz(root+24+sc[(b+current.id)%sc.length]),w+beat*.08,beat*.50,.045,ge.wave);
+   nextTime+=beat;beatIndex++;
+   if(beatIndex>160)setTrack(pick())
  }
 }
-function begin(){
- if(!initAudio())return;
- Promise.resolve(ctx.resume?ctx.resume():null).then(function(){
-  if(!current)setTrack(pick());playing=true;el("playBtn").textContent="❚❚";nextTime=ctx.currentTime+.08;clearInterval(timer);timer=setInterval(schedule,500);schedule();status("재생 중",true)
- }).catch(function(){status("오디오 시작 실패",false)})
+function startMusic(){
+ unlock().then(function(){
+   if(!current)setTrack(pick());
+   playing=true;el("playBtn").textContent="❚❚";
+   nextTime=ctx.currentTime+.20;
+   clearInterval(timer);timer=setInterval(schedule,400);schedule();stat("음악 재생 중",true)
+ }).catch(function(e){stat("음악 시작 실패: "+e.message,false)})
 }
-function pause(){playing=false;clearInterval(timer);el("playBtn").textContent="▶";if(ctx&&ctx.suspend)ctx.suspend();status("일시정지",true)}
-function next(){if(!ctx){begin();return}setTrack(pick());if(!playing)begin();else{nextTime=ctx.currentTime+.05;schedule()}}
-function prev(){if(history.length){current=history.pop();beatIndex=0;el("trackTitle").textContent=current.title;el("trackMeta").textContent=GENRES[current.genre].name+" · "+current.bpm+" BPM";if(!playing)begin()}}
+function pause(){playing=false;clearInterval(timer);el("playBtn").textContent="▶";if(ctx&&ctx.suspend)ctx.suspend();stat("일시정지",true)}
+function next(){if(!current)setTrack(pick());else setTrack(pick());if(playing){nextTime=ctx.currentTime+.1;schedule()}else startMusic()}
+function prev(){if(history.length){current=history.pop();beatIndex=0;el("trackTitle").textContent=current.title;el("trackMeta").textContent=G[current.genre].name+" · "+current.bpm+" BPM";if(!playing)startMusic()}}
 function updateAll(){var all=true;keys.forEach(function(k){if(!selected[k])all=false});document.querySelector('[data-genre="all"]').classList.toggle("on",all)}
-function preset(arr){keys.forEach(function(k){selected[k]=arr.indexOf(k)>=0});document.querySelectorAll(".genre").forEach(function(b){var g=b.getAttribute("data-genre");if(g!=="all")b.classList.toggle("on",selected[g])});updateAll()}
 document.querySelectorAll(".genre").forEach(function(b){b.addEventListener("click",function(){
- var g=this.getAttribute("data-genre");if(g==="all"){keys.forEach(function(k){selected[k]=true});document.querySelectorAll(".genre").forEach(function(x){x.classList.add("on")});return}
- var n=0;keys.forEach(function(k){if(selected[k])n++});if(selected[g]&&n===1)return;selected[g]=!selected[g];this.classList.toggle("on",selected[g]);updateAll()
+ var g=this.getAttribute("data-genre");
+ if(g==="all"){keys.forEach(function(k){selected[k]=true});document.querySelectorAll(".genre").forEach(function(x){x.classList.add("on")});return}
+ var n=0;keys.forEach(function(k){if(selected[k])n++});if(selected[g]&&n===1)return;
+ selected[g]=!selected[g];this.classList.toggle("on",selected[g]);updateAll()
 })});
-el("startBtn").onclick=begin;el("playBtn").onclick=function(){playing?pause():begin()};el("nextBtn").onclick=next;el("prevBtn").onclick=prev;
-el("volume").oninput=function(){if(master)master.gain.value=Number(this.value)/100*.35};
-el("calmBtn").onclick=function(){preset(["classic","cinema","ballad"])};el("focusBtn").onclick=function(){preset(["classic","cinema","anime"])};el("happyBtn").onclick=function(){preset(["anime","bright"])};
-document.querySelectorAll(".mode").forEach(function(b){b.onclick=function(){var m=Number(this.getAttribute("data-min"));clearTimeout(endTimer);if(m===60)preset(["classic","cinema","ballad"]);else if(m===720)preset(["classic","anime","ballad","bright"]);else preset(keys);begin();endTimer=setTimeout(pause,m*60000);status(m+"분 자동재생 모드",true)}});
+el("testBtn").onclick=testSound;
+el("startBtn").onclick=startMusic;
+el("playBtn").onclick=function(){playing?pause():startMusic()};
+el("nextBtn").onclick=next;el("prevBtn").onclick=prev;
+el("volume").oninput=function(){if(master)master.gain.value=Number(this.value)/100*.75};
 
-var deferredPrompt=null;
-window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();deferredPrompt=e});
-el("installBtn").onclick=function(){if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.finally(function(){deferredPrompt=null})}else el("sheet").classList.add("show")};
-el("closeSheet").onclick=function(){el("sheet").classList.remove("show")};
-
-if("serviceWorker" in navigator){window.addEventListener("load",function(){navigator.serviceWorker.register("./sw.js").catch(function(){})})}
-status("화면 준비 완료 — 오디오 시작을 눌러주세요",true);
+if("serviceWorker" in navigator){
+ window.addEventListener("load",function(){
+   navigator.serviceWorker.register("./sw.js?v=2").then(function(r){r.update()}).catch(function(){})
+ })
+}
+stat("준비 완료 — 소리 테스트를 눌러주세요",true);
 })();
 </script>
 </body>
