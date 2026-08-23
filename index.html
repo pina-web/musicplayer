@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Random Play</title>
+<title>요피의 전시음악플레이리스트</title>
 <style>
 :root{
   --bg:#EDE8E0; --card:#F3EFE8; --ink:#2B2823; --sub:#8E877B;
@@ -98,9 +98,9 @@ svg{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:
   transform:translateY(101%);transition:transform .32s cubic-bezier(.3,.9,.3,1);z-index:5;
 }
 .sheet.on{transform:translateY(0)}
-.sheet h2{font-size:16px;font-weight:650;margin:0}
-.sheet .sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sheet .sh button{width:32px;height:32px;display:grid;place-items:center;border-radius:11px;color:#5A544A}
+.sheet h2{font-size:16px;font-weight:650;margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.sheet .sh{display:flex;align-items:center;gap:10px;justify-content:space-between;margin-bottom:12px}
+.sheet .sh button{flex:0 0 auto;width:32px;height:32px;display:grid;place-items:center;border-radius:11px;color:#5A544A}
 .sheet .body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:2px 2px 6px;margin:0 -2px}
 .mood{
   display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:18px;margin-bottom:9px;
@@ -110,7 +110,7 @@ svg{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:
 .mood.on{box-shadow:inset 5px 5px 11px var(--sd),inset -5px -5px 10px var(--sl)}
 .mood .em{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;font-size:17px;background:#EAE4DA}
 .mood .nm{flex:1;min-width:0}
-.mood .nm b{display:block;font-size:14.5px;font-weight:600}
+.mood .nm b{display:block;font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mood .nm span{display:block;font-size:11.5px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mood .n{font-size:11px;color:var(--sub)}
 .mood.on .n{color:var(--red);font-weight:600}
@@ -137,11 +137,11 @@ svg{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:
   box-shadow:2px 2px 5px var(--sd);transition:transform .2s}
 .sw.on{background:#E7BDB8}
 .sw.on i{transform:translateX(22px);background:var(--red)}
-#cf{-webkit-appearance:none;appearance:none;width:120px;height:16px;background:transparent}
-#cf::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:#DFD8CD}
-#cf::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-5px;border-radius:50%;background:#F6F3ED;box-shadow:2px 2px 5px var(--sd)}
-#cf::-moz-range-track{height:4px;border-radius:3px;background:#DFD8CD}
-#cf::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:#F6F3ED}
+#cf,#gap{-webkit-appearance:none;appearance:none;width:120px;height:16px;background:transparent}
+#cf::-webkit-slider-runnable-track,#gap::-webkit-slider-runnable-track{height:4px;border-radius:3px;background:#DFD8CD}
+#cf::-webkit-slider-thumb,#gap::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;margin-top:-5px;border-radius:50%;background:#F6F3ED;box-shadow:2px 2px 5px var(--sd)}
+#cf::-moz-range-track,#gap::-moz-range-track{height:4px;border-radius:3px;background:#DFD8CD}
+#cf::-moz-range-thumb,#gap::-moz-range-thumb{width:14px;height:14px;border:0;border-radius:50%;background:#F6F3ED}
 .addbtn{width:100%;padding:14px;border-radius:18px;font-size:14px;font-weight:600;
   box-shadow:5px 5px 11px var(--sd),-5px -5px 10px var(--sl)}
 .addbtn:active{box-shadow:inset 4px 4px 9px var(--sd),inset -4px -4px 9px var(--sl)}
@@ -205,7 +205,7 @@ svg{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:
 
   <!-- 느낌 시트 -->
   <section class="sheet" id="moodSheet">
-    <div class="sh"><h2>어떤 느낌으로 틀까요</h2>
+    <div class="sh"><h2>무엇을 틀까요</h2>
       <button data-close><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="body" id="moodList"></div>
   </section>
@@ -226,11 +226,20 @@ svg{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:
         <input type="range" id="cf" min="0" max="12" step="1" value="4"><span class="val" id="cfVal">4초</span></div>
       <div class="opt"><div class="lb">랜덤 재생<div class="hint">한 바퀴 다 돈 뒤 다시 섞어요</div></div>
         <div class="sw on" id="swShuffle"><i></i></div></div>
+      <div class="opt"><div class="lb">곡 사이 여백<div class="hint">한 곡이 끝나고 조용히 쉬는 시간</div></div>
+        <input type="range" id="gap" min="0" max="10" step="1" value="0"><span class="val" id="gapVal">없음</span></div>
       <div class="opt"><div class="lb">한 곡 반복<div class="hint">끄면 전체를 이어서 재생</div></div>
         <div class="sw" id="swOne"><i></i></div></div>
-      <button class="addbtn" id="addBtn">내 음원 파일 추가</button>
-      <p class="note">생성 음악 200곡은 브라우저가 그 자리에서 연주합니다. 저작권자가 없고 전부 가사 없는 연주곡이에요.<br>
-      추가한 파일은 새로고침하면 목록에서 사라집니다. 전시 중에는 창을 그대로 두세요.</p>
+      <button class="addbtn" id="addBtn">음원 파일 추가</button>
+      <button class="addbtn" id="folderBtn" style="margin-top:10px">음악 폴더 통째로 불러오기</button>
+      <p class="note" id="exNote" style="display:none;color:#C1443A">
+        ⚠ 음원 파일을 찾지 못했습니다. <b>music</b> 폴더(또는 <b>전시회음악</b> 폴더)를
+        이 파일과 같은 위치에 두거나, 아래에서 폴더를 직접 불러오세요.</p>
+      <p class="note">요피의 전시음악플레이리스트 33곡은 같은 위치의 <b>music</b> 폴더(없으면 <b>전시회음악</b> 폴더)에서 읽습니다.
+      폴더를 통째로 불러오면 파형이 소리에 맞춰 움직이고, 다른 음원도 함께 넣을 수 있습니다.
+      불러온 파일은 새로고침하면 목록에서 사라집니다.<br><br>
+      생성 음악 200곡은 음원 파일이 아니라 브라우저가 실시간으로 연주하는 소리입니다.
+      다운로드도 인터넷도 필요 없고 저작권자가 없습니다.</p>
     </div>
   </section>
 </div>
@@ -242,19 +251,65 @@ svg{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:
 </div>
 
 <input type="file" id="fileInput" multiple accept="audio/*" hidden>
+<input type="file" id="folderInput" webkitdirectory directory hidden>
 
 <script>
 "use strict";
 /* ═══════════════════════════════════════════════════════════
-   Random Play — 느낌별 무한 재생기
-   42곡은 브라우저가 실시간 연주하는 생성 음악(가사·저작권 없음)
+   Random Play — 실제 연주 녹음만 재생합니다.
+   합성음(신디사이저)은 전부 걷어냈습니다.
    ═══════════════════════════════════════════════════════════ */
 
-/* ═══════════════════════════════════════════════════════════
-   Random Play — 200곡 생성 엔진
-   피아노는 배음 불협(inharmonicity) + 해머 노이즈 + 배음별 감쇠로
-   합성해서 미디 톤이 아닌 실제 피아노에 가깝게 울립니다.
-   ═══════════════════════════════════════════════════════════ */
+/* 파일 경로 후보 — 앞에서부터 시도하고 없으면 다음 것으로 넘어갑니다.
+   1) music/piano-01.mp3      깃허브 배포용(영문·권장)
+   2) 전시회음악/피아노곡-요피 (1).mp3   원본 폴더 그대로
+   3) 위 이름의 macOS 자모분리(NFD) 형태 */
+const EX_DIR="전시회음악/", EX_BASE="피아노곡-요피 ";
+const pad2=n=>String(n).padStart(2,"0");
+function srcCandidates(n){
+  const ko=EX_DIR+EX_BASE+"("+n+").mp3";
+  const out=["music/piano-"+pad2(n)+".mp3", encodeURI(ko)];
+  try{ const nfd=ko.normalize("NFD"); if(nfd!==ko) out.push(encodeURI(nfd)); }catch(e){}
+  return out;
+}
+/* file:// 로 열면 브라우저가 로컬 파일의 소리 분석을 막습니다.
+   웹서버(깃허브 페이지 등)에서는 같은 출처라 제한이 없어 파형이 살아 움직입니다. */
+const LOCAL = location.protocol === "file:";
+const EX_LIST=[[1,67],[2,168],[3,123],[4,142],[5,113],[6,103],[7,111],[8,90],[9,151],[10,117],
+ [11,163],[12,117],[13,167],[14,171],[15,177],[16,87],[17,156],[18,97],[19,93],[20,165],
+ [21,135],[22,132],[23,155],[24,139],[25,58],[26,106],[27,66],[28,19],[29,110],[30,167],
+ [31,124],[32,109],[33,77]];
+
+let uid=0;
+const exTracks=EX_LIST.map(([n,d])=>({
+  id:"x"+n, kind:"url", num:n, title:"피아노곡 "+n, form:"",
+  artist:"요피의 전시음악플레이리스트", album:"요피의 전시음악플레이리스트", genre:"요피의 전시음악플레이리스트", dur:d,
+  file:EX_BASE+"("+n+").mp3", srcs:srcCandidates(n), url:srcCandidates(n)[0]
+}));
+let fileTracks=[];
+
+/* ── 오디오 ─────────────────────────────────────────────── */
+let ctx=null,masterGain=null,comp=null,analyser=null,shelf=null,IRS=null,noiseBuf=null;
+function initAudio(){
+  if(ctx)return;
+  const AC=window.AudioContext||window.webkitAudioContext;
+  ctx=new AC();
+  masterGain=ctx.createGain(); masterGain.gain.value=volTarget();
+  comp=ctx.createDynamicsCompressor();          // 곡마다 녹음 레벨이 달라도 튀지 않게
+  comp.threshold.value=-11; comp.knee.value=18; comp.ratio.value=2.4;
+  comp.attack.value=.05; comp.release.value=.5;
+  analyser=ctx.createAnalyser(); analyser.fftSize=2048; analyser.smoothingTimeConstant=.72;
+  /* 생성 음악은 고역이 날카로워 눌러주고, 실제 녹음은 그대로 통과시킵니다 */
+  shelf=ctx.createBiquadFilter(); shelf.type="highshelf";
+  shelf.frequency.value=3200; shelf.gain.value=0;
+  masterGain.connect(shelf); shelf.connect(comp);
+  comp.connect(analyser); analyser.connect(ctx.destination);
+  IRS={s:makeIR(1.3,3.2),m:makeIR(2.7,2.4),l:makeIR(4.8,1.9)};
+  noiseBuf=makeNoise(3);
+}
+
+
+/* ═══════════ 생성 음악 200곡 (브라우저가 실시간 연주) ═══════════ */
 const LOWCPU=((navigator.hardwareConcurrency||4)<=4)||/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
 
 const SCALES={
@@ -375,7 +430,6 @@ function rngOf(seed){let a=seed>>>0;return()=>{a=a+0x6D2B79F5|0;let t=Math.imul(
   t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
 const pk=(r,a)=>a[Math.floor(r()*a.length)%a.length];
 
-let uid=0;
 const genTracks=[];
 const used=new Set();
 Object.keys(MOODS).forEach(mk=>{
@@ -390,7 +444,7 @@ Object.keys(MOODS).forEach(mk=>{
     const meter=(M.waltz&&r()<M.waltz)?6:8, P=F.pats[meter];
     genTracks.push({
       id:"g"+(++uid),kind:"gen",mood:mk,title,form:F.label,formKey:fk,
-      album:M.album,genre:M.name,artist:F.label,
+      album:M.album,genre:M.name,artist:M.name,
       dur:Math.round((M.dur[0]+r()*(M.dur[1]-M.dur[0]))*60),
       p:{bpm:Math.round(M.bpm[0]+r()*(M.bpm[1]-M.bpm[0])),
          scale:SCALES[pk(r,M.scales)],root:pk(r,M.roots),prog:pk(r,PROGS),
@@ -408,14 +462,12 @@ Object.keys(MOODS).forEach(mk=>{
     });
   }
 });
-let fileTracks=[];
 
 /* 8마디마다 바뀌는 악곡 구간 — 곡이 진행되며 변합니다 */
 const SECT=[{d:.8,mel:.85,arp:.9,oct:0},{d:1.06,mel:1.1,arp:1,oct:0},
             {d:.68,mel:.55,arp:.72,oct:7},{d:1.16,mel:1.15,arp:1,oct:0}];
 
-/* ── 오디오 ─────────────────────────────────────────────── */
-let ctx=null,masterGain=null,comp=null,analyser=null,irBuf=null,noiseBuf=null,IRS=null;
+
 const mtof=m=>440*Math.pow(2,(m-69)/12);
 const rnd=(a,b)=>a+Math.random()*(b-a);
 const hum=x=>(Math.random()*2-1)*x;
@@ -432,23 +484,6 @@ function makeNoise(sec){
   const rate=ctx.sampleRate,len=(rate*sec)|0,b=ctx.createBuffer(2,len,rate);
   for(let c=0;c<2;c++){const d=b.getChannelData(c);for(let i=0;i<len;i++)d[i]=Math.random()*2-1;}
   return b;
-}
-function initAudio(){
-  if(ctx)return;
-  const AC=window.AudioContext||window.webkitAudioContext;
-  ctx=new AC();
-  masterGain=ctx.createGain(); masterGain.gain.value=volTarget();
-  comp=ctx.createDynamicsCompressor();
-  comp.threshold.value=-16;comp.knee.value=24;comp.ratio.value=3.5;comp.attack.value=.02;comp.release.value=.5;
-  analyser=ctx.createAnalyser(); analyser.fftSize=2048; analyser.smoothingTimeConstant=.72;
-  const shelf=ctx.createBiquadFilter(); shelf.type="highshelf";
-  shelf.frequency.value=3200; shelf.gain.value=-7;          // 날카로운 대역을 눌러줍니다
-  const air=ctx.createBiquadFilter(); air.type="lowpass";
-  air.frequency.value=9000; air.Q.value=.4;                 // 초고역 차단
-  masterGain.connect(shelf); shelf.connect(air); air.connect(comp);
-  comp.connect(analyser); analyser.connect(ctx.destination);
-  IRS={s:makeIR(1.3,3.2),m:makeIR(2.7,2.4),l:makeIR(4.8,1.9)};
-  irBuf=IRS.m; noiseBuf=makeNoise(3);
 }
 function panTo(node,f,dry,wet){
   if(ctx.createStereoPanner){
@@ -636,7 +671,7 @@ function pNoise(dry,t,g,type,freq,len){
 class GenUnit{
   constructor(track){
     this.track=track; this.p=track.p; this.f=FORMS[track.formKey];
-    this.dead=false; this.nodes=[];
+    this.dead=false; this.live=true; this.nodes=[];
     this.out=ctx.createGain(); this.out.gain.value=.0001; this.out.connect(masterGain);
     this.dry=ctx.createGain(); this.dry.connect(this.out);
     this.revN=ctx.createConvolver(); this.revN.buffer=IRS[MOODS[track.mood].ir]||IRS.m;
@@ -737,26 +772,61 @@ class GenUnit{
       try{this.out.disconnect()}catch(e){} },(fade+1.2)*1000);
   }
 }
-/* ── 내 음원 유닛 ────────────────────────────────────────── */
+/* 폴더에서 직접 읽는 곡 — 오디오 요소 볼륨으로 페이드
+   (로컬 파일을 Web Audio에 물리면 브라우저가 무음 처리할 수 있음) */
+class UrlUnit{
+  constructor(track){
+    this.track=track; this.dead=false; this.k=0; this.live=false; this.si=0;
+    this.el=new Audio(); this.el.preload="auto"; this.el.volume=0;
+    this.el.addEventListener("error",()=>tryNextSrc(this));
+    this.el.src=srcsOf(track)[0];
+    this.el.addEventListener("loadedmetadata",()=>{
+      if(this.el.duration&&Math.abs(this.track.dur-this.el.duration)>1){
+        this.track.dur=this.el.duration; renderQueue(); }});
+  }
+  fade(to,sec){
+    clearInterval(this.ft);
+    const from=this.k, t0=Date.now(), ms=Math.max(120,sec*1000);
+    this.ft=setInterval(()=>{
+      const x=Math.min(1,(Date.now()-t0)/ms);
+      this.k=from+(to-from)*x; this.reVol();
+      if(x>=1){ clearInterval(this.ft); if(to===0){ try{this.el.pause()}catch(e){} } }
+    },40);
+  }
+  reVol(){ try{ this.el.volume=Math.max(0,Math.min(1,this.k*volTarget())); }catch(e){} }
+  start(t0,fade){ this.started=1; const p=this.el.play(); if(p&&p.catch)p.catch(()=>{}); this.fade(1,fade); }
+  get elapsed(){ return this.el.currentTime; }
+  seek(s){ try{this.el.currentTime=s}catch(e){} }
+  pause(){ clearInterval(this.ft); this.el.pause(); }
+  resume(){ const p=this.el.play(); if(p&&p.catch)p.catch(()=>{}); }
+  stop(t,fade){ if(this.dead)return; this.dead=true; this.fade(0,fade); }
+}
+
+/* 불러온 파일 — Web Audio를 거치므로 파형이 소리에 반응합니다 */
 class FileUnit{
   constructor(track){
-    this.track=track; this.dead=false;
-    this.el=new Audio(); this.el.src=track.url; this.el.preload="auto";
+    this.track=track; this.dead=false; this.live=true; this.si=0;
+    this.el=new Audio(); this.el.preload="auto";
+    this.el.addEventListener("error",()=>tryNextSrc(this));
+    this.el.src=srcsOf(track)[0];
     this.out=ctx.createGain(); this.out.gain.value=.0001;
     this.src=ctx.createMediaElementSource(this.el);
     this.src.connect(this.out); this.out.connect(masterGain);
+    this.el.addEventListener("loadedmetadata",()=>{
+      if(this.el.duration&&Math.abs(this.track.dur-this.el.duration)>1){
+        this.track.dur=this.el.duration; renderQueue(); }});
   }
   start(t0,fade){
     this.out.gain.setValueAtTime(.0001,t0);
     this.out.gain.linearRampToValueAtTime(1,t0+fade);
-    const pr=this.el.play(); if(pr&&pr.catch)pr.catch(()=>{});
-    this.el.addEventListener("loadedmetadata",()=>{
-      if(this.track.dur!==this.el.duration){this.track.dur=this.el.duration;renderQueue();}});
+    this.started=1;
+    const p=this.el.play(); if(p&&p.catch)p.catch(()=>{});
   }
   get elapsed(){ return this.el.currentTime; }
   seek(s){ try{this.el.currentTime=s}catch(e){} }
+  reVol(){}
   pause(){ this.el.pause(); }
-  resume(){ const pr=this.el.play(); if(pr&&pr.catch)pr.catch(()=>{}); }
+  resume(){ const p=this.el.play(); if(p&&p.catch)p.catch(()=>{}); }
   stop(t,fade){
     if(this.dead)return; this.dead=true;
     try{ this.out.gain.cancelScheduledValues(t);
@@ -766,30 +836,62 @@ class FileUnit{
   }
 }
 
+/* 경로 후보를 차례로 시도합니다 */
+function srcsOf(t){ return t.srcs&&t.srcs.length?t.srcs:[t.url]; }
+function tryNextSrc(u){
+  if(u.dead) return;
+  const list=srcsOf(u.track);
+  if(++u.si < list.length){
+    u.track.url=list[u.si];
+    u.el.src=list[u.si];
+    try{ u.el.load(); }catch(e){}
+    if(u.started){ const p=u.el.play(); if(p&&p.catch)p.catch(()=>{}); }
+    return;
+  }
+  onUrlFail(u.track);
+}
+
 /* ── 상태 ────────────────────────────────────────────────── */
-const S={source:"all-gen",shuffle:true,repeatOne:false,cf:4,playing:false,
-         units:[],cur:null,curTrack:null,bag:[],advancing:false,favs:new Set()};
+const S={source:"exhibit",shuffle:true,repeatOne:false,cf:4,gap:0,playing:false,
+         units:[],cur:null,curTrack:null,bag:[],advancing:false,waiting:false,
+         gapTimer:null,favs:new Set()};
 const $=s=>document.querySelector(s);
 const fmt=s=>{s=Math.max(0,Math.floor(s||0));return Math.floor(s/60)+":"+String(s%60).padStart(2,"0")};
+const now=()=>ctx?ctx.currentTime:0;
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 
-const SOURCES=[{k:"all-gen",emoji:"🎧",name:"전체 랜덤",desc:"200곡 전부 섞어서 종일 재생"}]
-  .concat(Object.keys(MOODS).map(k=>({k,emoji:MOODS[k].emoji,name:MOODS[k].name,desc:MOODS[k].desc})))
-  .concat([{k:"fav",emoji:"⭐",name:"즐겨찾기",desc:"별을 누른 곡만 모아서"},
-           {k:"file",emoji:"💿",name:"내 음원",desc:"직접 넣은 파일만"},
-           {k:"mix",emoji:"🔀",name:"전체 + 내 음원",desc:"생성 음악과 내 파일을 함께"}]);
+const SOURCES=[
+  {k:"exhibit",emoji:"🎼",name:"요피의 전시음악플레이리스트",desc:"직접 연주한 피아노곡 33곡"},
+  {k:"gen",    emoji:"🎧",name:"생성 음악 전체",desc:"브라우저가 그 자리에서 연주하는 200곡"}
+].concat(Object.keys(MOODS).map(k=>({k:"m:"+k,emoji:MOODS[k].emoji,
+    name:MOODS[k].name,desc:MOODS[k].desc}))).concat([
+  {k:"file",   emoji:"💿",name:"불러온 음원",desc:"파일이나 폴더에서 추가한 곡"},
+  {k:"all",    emoji:"🔀",name:"전부 섞기", desc:"연주 + 생성 음악 + 불러온 음원"},
+  {k:"fav",    emoji:"⭐",name:"즐겨찾기",  desc:"별을 누른 곡만 모아서"}
+]);
 function tracksOf(k){
-  if(k==="all-gen") return genTracks;
+  if(k==="exhibit") return exTracks;
+  if(k==="gen")     return genTracks;
   if(k==="file")    return fileTracks;
-  if(k==="mix")     return genTracks.concat(fileTracks);
-  if(k==="fav")     return genTracks.concat(fileTracks).filter(t=>S.favs.has(t.id));
-  return genTracks.filter(t=>t.mood===k);
+  if(k==="all")     return exTracks.concat(genTracks,fileTracks);
+  if(k==="fav")     return exTracks.concat(genTracks,fileTracks).filter(t=>S.favs.has(t.id));
+  if(k.indexOf("m:")===0) return genTracks.filter(t=>t.mood===k.slice(2));
+  return exTracks;
 }
-const list=()=>tracksOf(S.source);
-const srcInfo=()=>SOURCES.find(s=>s.k===S.source);
+const list=()=>tracksOf(S.source).filter(t=>!t.bad);
+const srcInfo=()=>SOURCES.find(s=>s.k===S.source)||SOURCES[0];
+
+let exMissing=false;
+function onUrlFail(track){
+  exMissing=true; track.bad=true;
+  const n=$("#exNote"); if(n) n.style.display="block";
+  if(S.curTrack&&S.curTrack.id===track.id){ const t=nextTrack(); if(t) play(t,true); }
+  renderQueue();
+}
 
 /* ── 파형 ────────────────────────────────────────────────── */
 function seedWave(track,n){
-  let s=0; const str=(track?track.id+track.title:"random");
+  let s=0; const str=track?track.id+track.title:"random";
   for(let i=0;i<str.length;i++) s=(s*31+str.charCodeAt(i))>>>0;
   const rand=()=>{s=(s*1664525+1013904223)>>>0;return s/4294967296};
   const a=[];
@@ -810,18 +912,25 @@ function drawWave(cv,key){
   const gap=3.1, n=Math.max(24,Math.floor(w/gap));
   if(disp[key].length!==n) disp[key]=seedWave(S.curTrack,n).map(v=>v*.5);
   const base=seedWave(S.curTrack,n);
-  if(S.playing&&analyser){
+  const live=S.playing&&analyser&&S.cur&&S.cur.live;
+  if(live){
     if(!freqData) freqData=new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(freqData);
     let lvl=0; for(let i=0;i<180;i++) lvl+=freqData[i];
     lvl=Math.min(1,lvl/180/140);
     for(let i=0;i<n;i++){
       const bin=freqData[2+((i*3)%260)]/255;
-      const tgt=base[i]*(.45+lvl*1.15)*(.6+bin*.9);
-      disp[key][i]=disp[key][i]*.8+tgt*.2;
+      disp[key][i]=disp[key][i]*.8+base[i]*(.45+lvl*1.15)*(.6+bin*.9)*.2;
+    }
+  }else if(S.playing&&S.cur&&S.curTrack&&S.curTrack.dur){
+    /* 소리를 읽을 수 없는 곡은 재생 위치를 따라 물결이 지나갑니다 */
+    const ph=S.cur.elapsed/S.curTrack.dur;
+    for(let i=0;i<n;i++){
+      const d=Math.abs(i/n-ph);
+      disp[key][i]=disp[key][i]*.85+base[i]*(.35+.75*Math.exp(-d*d*90))*.15;
     }
   }else{
-    for(let i=0;i<n;i++) disp[key][i]=disp[key][i]*.9+base[i]*.35*.1;
+    for(let i=0;i<n;i++) disp[key][i]=disp[key][i]*.9+base[i]*.035;
   }
   c.strokeStyle="#312D28"; c.lineWidth=1.25; c.lineCap="round";
   const mid=h/2;
@@ -838,7 +947,7 @@ document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>b.closest(".s
 
 function renderMoods(){
   $("#moodList").innerHTML=SOURCES.map(s=>{
-    const n=tracksOf(s.k).length;
+    const n=tracksOf(s.k).filter(t=>!t.bad).length;
     return `<div class="mood${S.source===s.k?" on":""}" data-k="${s.k}">
       <div class="em">${s.emoji}</div>
       <div class="nm"><b>${s.name}</b><span>${s.desc}</span></div>
@@ -847,7 +956,7 @@ function renderMoods(){
   $("#moodList").querySelectorAll(".mood").forEach(el=>{
     el.onclick=()=>{
       const k=el.dataset.k;
-      if(!tracksOf(k).length){ el.querySelector(".n").textContent="비어 있음"; return; }
+      if(!tracksOf(k).filter(t=>!t.bad).length){ el.querySelector(".n").textContent="비어 있음"; return; }
       S.source=k; S.bag=[]; renderMoods(); renderQueue();
       $("#moodSheet").classList.remove("on");
       const t=nextTrack(); if(t) play(t,true);
@@ -859,43 +968,49 @@ function renderQueue(){
   $("#queueTitle").textContent=srcInfo().name+" · "+v.length+"곡";
   if(!v.length){
     $("#queueList").innerHTML=`<div class="empty">${S.source==="file"
-      ? "아직 추가한 음원이 없습니다.<br>설정에서 파일을 추가하거나 창에 끌어다 놓으세요."
+      ? "아직 불러온 음원이 없습니다.<br>설정에서 파일이나 폴더를 불러오세요."
       : "이 목록은 비어 있습니다."}</div>`;
     return;
   }
   $("#queueList").innerHTML=v.map((t,i)=>`
     <div class="qrow${S.curTrack&&S.curTrack.id===t.id?" now":""}" data-id="${t.id}">
       <div class="ix">${i+1}</div>
-      <div class="qt"><b>${esc(t.title)}</b><span>${esc(t.genre)} · ${esc(t.form)}</span></div>
+      <div class="qt"><b>${esc(t.title)}</b><span>${esc(t.artist)}${t.form?" · "+esc(t.form):""}</span></div>
       <div class="qd">${t.dur?fmt(t.dur):"—"}</div></div>`).join("");
   $("#queueList").querySelectorAll(".qrow").forEach(r=>{
     r.onclick=()=>{ const t=v.find(x=>x.id===r.dataset.id); if(t){play(t,true);$("#queueSheet").classList.remove("on");} };
   });
 }
-const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 
 /* ── 재생 ────────────────────────────────────────────────── */
 function volTarget(){ return Math.pow($("#vol").value/100,1.6); }
+function clearGap(){ if(S.gapTimer){clearTimeout(S.gapTimer);S.gapTimer=null;} S.waiting=false; }
+
 function play(track,manual){
   initAudio(); if(ctx.state==="suspended") ctx.resume();
-  // 직접 넘긴 곡은 1초 안에 바뀌고, 자동으로 넘어갈 때만 길게 겹칩니다
-  const fade = manual ? Math.min(1,Math.max(.25,S.cf)) : Math.max(.18,S.cf);
-  S.units.forEach(u=>u.stop(ctx.currentTime,fade));
+  clearGap();
+  const fade = manual ? Math.min(1,Math.max(.25,S.cf)) : Math.max(.3,S.cf);
+  S.units.forEach(u=>u.stop(now(),fade));
   S.units=S.units.filter(u=>!u.dead);
-  const u=track.kind==="gen"?new GenUnit(track):new FileUnit(track);
-  u.start(ctx.currentTime,fade); S.units.push(u);
+  const u = track.kind==="gen" ? new GenUnit(track)
+          : (track.kind==="url" && LOCAL) ? new UrlUnit(track) : new FileUnit(track);
+  if(shelf){ const g=track.kind==="gen"?-7:0;      // 생성 음악일 때만 고역을 눌러줍니다
+    shelf.gain.cancelScheduledValues(now());
+    shelf.gain.setValueAtTime(shelf.gain.value,now());
+    shelf.gain.linearRampToValueAtTime(g,now()+.3); shelf.gain.value=g; }
+  u.start(now(),fade); S.units.push(u);
   S.cur=u; S.curTrack=track; S.advancing=false; S.playing=true;
-  masterGain.gain.cancelScheduledValues(ctx.currentTime);
-  masterGain.gain.setValueAtTime(volTarget(),ctx.currentTime);
+  masterGain.gain.cancelScheduledValues(now());
+  masterGain.gain.setValueAtTime(volTarget(),now());
   disp.art=[]; disp.stage=[];
   paintMeta(); renderQueue(); updateIcons();
 }
 function paintMeta(){
   const t=S.curTrack; if(!t)return;
   $("#title").textContent=t.title;
-  $("#sub").textContent=t.genre+" · "+t.form;
+  $("#sub").textContent=t.artist+(t.form?" · "+t.form:"");
   $("#stageTitle").textContent=t.title;
-  $("#stageSub").textContent=t.genre+" · "+t.form;
+  $("#stageSub").textContent=t.artist+(t.form?" · "+t.form:"");
   $("#favBtn").classList.toggle("on",S.favs.has(t.id));
   const tx=$("#title").parentNode; tx.classList.remove("swap"); void tx.offsetWidth; tx.classList.add("swap");
 }
@@ -922,16 +1037,19 @@ function togglePlay(){
   if(!S.curTrack){ const t=nextTrack(); if(t) play(t,true); return; }
   initAudio();
   if(S.playing){
-    S.playing=false; updateIcons();
-    try{ masterGain.gain.cancelScheduledValues(ctx.currentTime);
-      masterGain.gain.setValueAtTime(masterGain.gain.value,ctx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(.0001,ctx.currentTime+.22); }catch(e){}
-    setTimeout(()=>{ if(!S.playing){S.units.forEach(u=>u.pause());ctx.suspend();} },250);
+    S.playing=false; clearGap(); updateIcons();
+    S.units.forEach(u=>u.pause());
+    try{ masterGain.gain.cancelScheduledValues(now());
+      masterGain.gain.setValueAtTime(masterGain.gain.value,now());
+      masterGain.gain.linearRampToValueAtTime(.0001,now()+.2); }catch(e){}
   }else{
     S.playing=true; updateIcons();
-    ctx.resume().then(()=>{ S.units.forEach(u=>u.resume());
-      masterGain.gain.setValueAtTime(.0001,ctx.currentTime);
-      masterGain.gain.linearRampToValueAtTime(volTarget(),ctx.currentTime+.25); });
+    ctx.resume().then(()=>{
+      S.units.forEach(u=>u.resume());
+      masterGain.gain.setValueAtTime(.0001,now());
+      masterGain.gain.linearRampToValueAtTime(volTarget(),now()+.25);
+    });
+    if(!S.cur){ const t=nextTrack(); if(t) play(t,true); }
   }
 }
 function updateIcons(){
@@ -952,8 +1070,18 @@ function loop(){
     $("#tRemain").textContent="-"+fmt(Math.max(0,dur-el));
     $("#trackFill").style.width=(pct*100)+"%";
     $("#knob").style.left=(pct*100)+"%";
-    if(S.playing&&dur>0&&!S.advancing&&el>=dur-Math.max(.3,S.cf)){
-      S.advancing=true; const t=nextTrack(); if(t) play(t);
+    if(S.playing&&dur>0&&!S.advancing){
+      if(S.gap>0){
+        if(el>=dur-.35){                       // 곡을 끝까지 들려주고 여백을 둡니다
+          S.advancing=true;
+          S.units.forEach(u=>u.stop(now(),.35)); S.cur=null; S.waiting=true;
+          $("#sub").textContent="다음 곡까지 잠시…";
+          S.gapTimer=setTimeout(()=>{ S.gapTimer=null; S.waiting=false;
+            const t=nextTrack(); if(t&&S.playing) play(t); },S.gap*1000);
+        }
+      }else if(el>=dur-Math.max(.3,S.cf)){
+        S.advancing=true; const t=nextTrack(); if(t) play(t);
+      }
     }
   }
   drawWave($("#art"),"art");
@@ -965,7 +1093,10 @@ requestAnimationFrame(loop);
 $("#play").onclick=togglePlay;
 $("#next").onclick=()=>{const t=nextTrack();if(t)play(t,true)};
 $("#prev").onclick=()=>{const t=prevTrack();if(t)play(t,true)};
-$("#vol").oninput=()=>{ if(ctx&&S.playing) masterGain.gain.setTargetAtTime(volTarget(),ctx.currentTime,.05); };
+$("#vol").oninput=()=>{
+  if(ctx&&S.playing) masterGain.gain.setTargetAtTime(volTarget(),now(),.05);
+  S.units.forEach(u=>u.reVol&&u.reVol());
+};
 $("#moodBtn").onclick=$("#moodBtn2").onclick=()=>{renderMoods();openSheet($("#moodSheet"))};
 $("#queueBtn").onclick=()=>{renderQueue();openSheet($("#queueSheet"))};
 $("#optBtn").onclick=()=>openSheet($("#optSheet"));
@@ -973,34 +1104,45 @@ $("#shuffleBtn").onclick=()=>{S.shuffle=!S.shuffle;S.bag=[];updateIcons()};
 $("#swShuffle").onclick=()=>{S.shuffle=!S.shuffle;S.bag=[];updateIcons()};
 $("#swOne").onclick=()=>{S.repeatOne=!S.repeatOne;updateIcons()};
 $("#cf").oninput=e=>{S.cf=+e.target.value;$("#cfVal").textContent=S.cf+"초"};
+$("#gap").oninput=e=>{S.gap=+e.target.value;$("#gapVal").textContent=S.gap?S.gap+"초":"없음"};
 $("#favBtn").onclick=()=>{
   if(!S.curTrack)return;
   S.favs.has(S.curTrack.id)?S.favs.delete(S.curTrack.id):S.favs.add(S.curTrack.id);
   paintMeta();
 };
 $("#track").onclick=e=>{
-  if(!S.cur||!S.curTrack||S.curTrack.kind!=="file")return;
+  if(!S.cur||!S.curTrack||!S.cur.seek)return;
   const r=e.currentTarget.getBoundingClientRect();
   S.cur.seek(Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*(S.curTrack.dur||0));
 };
 
-/* 파일 추가 */
+/* 파일 · 폴더 불러오기 */
 $("#addBtn").onclick=()=>$("#fileInput").click();
+$("#folderBtn").onclick=()=>$("#folderInput").click();
 $("#fileInput").onchange=e=>{addFiles(e.target.files);e.target.value=""};
+$("#folderInput").onchange=e=>{addFiles(e.target.files);e.target.value=""};
 ["dragenter","dragover"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault()));
 document.addEventListener("drop",e=>{e.preventDefault();
   if(e.dataTransfer&&e.dataTransfer.files.length) addFiles(e.dataTransfer.files);});
+
 function addFiles(files){
   const ok=[...files].filter(f=>f.type.startsWith("audio/")||/\.(mp3|m4a|aac|wav|ogg|oga|flac|webm)$/i.test(f.name));
+  let upgraded=0, added=0;
   ok.forEach(f=>{
     const url=URL.createObjectURL(f);
-    const t={id:"f"+(++uid),kind:"file",mood:"file",title:f.name.replace(/\.[^.]+$/,""),
-             artist:"내 음원",form:"내 음원",album:"가져온 파일",genre:"내 음원",dur:0,url,hue:30};
-    fileTracks.push(t);
+    /* 전시회 음악과 같은 파일이면 교체합니다 — Web Audio를 거치게 되어 파형이 살아납니다 */
+    const ex=exTracks.find(t=>t.file===f.name);
+    if(ex){ ex.url=url; ex.srcs=[url]; ex.kind="file"; ex.bad=false; upgraded++; return; }
+    fileTracks.push({id:"f"+(++uid),kind:"file",title:f.name.replace(/\.[^.]+$/,""),
+      artist:"불러온 음원",form:"",album:"불러온 파일",genre:"불러온 음원",dur:0,url,srcs:[url]});
+    added++;
     const p=new Audio(); p.preload="metadata"; p.src=url;
-    p.addEventListener("loadedmetadata",()=>{t.dur=p.duration;renderQueue()});
+    p.addEventListener("loadedmetadata",()=>{
+      const t=fileTracks.find(x=>x.url===url); if(t){t.dur=p.duration;renderQueue();}});
   });
-  if(ok.length){ S.source="file"; S.bag=[]; renderMoods(); renderQueue();
+  if(upgraded){ exMissing=false; const n=$("#exNote"); if(n) n.style.display="none"; }
+  if(added&&!upgraded) S.source="file";
+  if(upgraded||added){ S.bag=[]; renderMoods(); renderQueue();
     $("#optSheet").classList.remove("on"); openSheet($("#queueSheet")); }
 }
 
