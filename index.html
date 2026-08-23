@@ -226,6 +226,8 @@ svg{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:
         <input type="range" id="cf" min="0" max="12" step="1" value="4"><span class="val" id="cfVal">4초</span></div>
       <div class="opt"><div class="lb">랜덤 재생<div class="hint">한 바퀴 다 돈 뒤 다시 섞어요</div></div>
         <div class="sw on" id="swShuffle"><i></i></div></div>
+      <div class="opt"><div class="lb">화면 꺼짐 방지<div class="hint" id="wakeHint">재생을 시작하면 켜집니다</div></div>
+        <div class="sw on" id="swWake"><i></i></div></div>
       <div class="opt"><div class="lb">곡 사이 여백<div class="hint">한 곡이 끝나고 조용히 쉬는 시간</div></div>
         <input type="range" id="gap" min="0" max="10" step="1" value="0"><span class="val" id="gapVal">없음</span></div>
       <div class="opt"><div class="lb">한 곡 반복<div class="hint">끄면 전체를 이어서 재생</div></div>
@@ -249,6 +251,10 @@ svg{display:block;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:
   <div><div id="stageTitle">—</div><div id="stageSub">—</div></div>
   <div id="stageHint">화면을 누르면 돌아갑니다 · 재생은 계속됩니다</div>
 </div>
+
+<video id="nosleep" muted loop playsinline webkit-playsinline preload="auto" tabindex="-1" aria-hidden="true"
+  style="position:fixed;right:0;bottom:0;width:2px;height:2px;opacity:.01;pointer-events:none;z-index:-1"
+  src="data:video/mp4;base64,AAAAIGZ0eXBpc29tAAACAGlzb21pc28yYXZjMW1wNDEAAAOTbW9vdgAAAGxtdmhkAAAAAAAAAAAAAAAAAAAD6AAAD6AAAQAAAQAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAr10cmFrAAAAXHRraGQAAAADAAAAAAAAAAAAAAABAAAAAAAAD6AAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAABAAAAAAAIAAAACAAAAAAAkZWR0cwAAABxlbHN0AAAAAAAAAAEAAA+gAABAAAABAAAAAAI1bWRpYQAAACBtZGhkAAAAAAAAAAAAAAAAAABAAAABAABVxAAAAAAALWhkbHIAAAAAAAAAAHZpZGUAAAAAAAAAAAAAAABWaWRlb0hhbmRsZXIAAAAB4G1pbmYAAAAUdm1oZAAAAAEAAAAAAAAAAAAAACRkaW5mAAAAHGRyZWYAAAAAAAAAAQAAAAx1cmwgAAAAAQAAAaBzdGJsAAAAwHN0c2QAAAAAAAAAAQAAALBhdmMxAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAIAAgBIAAAASAAAAAAAAAABFUxhdmM2MC4zMS4xMDIgbGlieDI2NAAAAAAAAAAAAAAAGP//AAAANmF2Y0MBZAAK/+EAGWdkAAqs2V+IiMBEAAADAAQAAAMAEDxIllgBAAZo6+PLIsD9+PgAAAAAEHBhc3AAAAABAAAAAQAAABRidHJ0AAAAAAAABkIAAAZCAAAAGHN0dHMAAAAAAAAAAQAAAAgAACAAAAAAFHN0c3MAAAAAAAAAAQAAAAEAAABIY3R0cwAAAAAAAAAHAAAAAQAAQAAAAAABAACgAAAAAAEAAEAAAAAAAQAAAAAAAAABAAAgAAAAAAEAAIAAAAAAAgAAIAAAAAAcc3RzYwAAAAAAAAABAAAAAQAAAAgAAAABAAAANHN0c3oAAAAAAAAAAAAAAAgAAALFAAAADAAAAAwAAAAMAAAADAAAABIAAAAOAAAADAAAABRzdGNvAAAAAAAAAAEAAAPDAAAAYnVkdGEAAABabWV0YQAAAAAAAAAhaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAAAAAAAAAAAAAtaWxzdAAAACWpdG9vAAAAHWRhdGEAAAABAAAAAExhdmY2MC4xNi4xMDAAAAAIZnJlZQAAAyltZGF0AAACrQYF//+p3EXpvebZSLeWLNgg2SPu73gyNjQgLSBjb3JlIDE2NCByMzEwOCAzMWUxOWY5IC0gSC4yNjQvTVBFRy00IEFWQyBjb2RlYyAtIENvcHlsZWZ0IDIwMDMtMjAyMyAtIGh0dHA6Ly93d3cudmlkZW9sYW4ub3JnL3gyNjQuaHRtbCAtIG9wdGlvbnM6IGNhYmFjPTEgcmVmPTMgZGVibG9jaz0xOjA6MCBhbmFseXNlPTB4MzoweDExMyBtZT1oZXggc3VibWU9NyBwc3k9MSBwc3lfcmQ9MS4wMDowLjAwIG1peGVkX3JlZj0xIG1lX3JhbmdlPTE2IGNocm9tYV9tZT0xIHRyZWxsaXM9MSA4eDhkY3Q9MSBjcW09MCBkZWFkem9uZT0yMSwxMSBmYXN0X3Bza2lwPTEgY2hyb21hX3FwX29mZnNldD0tMiB0aHJlYWRzPTEgbG9va2FoZWFkX3RocmVhZHM9MSBzbGljZWRfdGhyZWFkcz0wIG5yPTAgZGVjaW1hdGU9MSBpbnRlcmxhY2VkPTAgYmx1cmF5X2NvbXBhdD0wIGNvbnN0cmFpbmVkX2ludHJhPTAgYmZyYW1lcz0zIGJfcHlyYW1pZD0yIGJfYWRhcHQ9MSBiX2JpYXM9MCBkaXJlY3Q9MSB3ZWlnaHRiPTEgb3Blbl9nb3A9MCB3ZWlnaHRwPTIga2V5aW50PTI1MCBrZXlpbnRfbWluPTIgc2NlbmVjdXQ9NDAgaW50cmFfcmVmcmVzaD0wIHJjX2xvb2thaGVhZD00MCByYz1jcmYgbWJ0cmVlPTEgY3JmPTIzLjAgcWNvbXA9MC42MCBxcG1pbj0wIHFwbWF4PTY5IHFwc3RlcD00IGlwX3JhdGlvPTEuNDAgYXE9MToxLjAwAIAAAAAQZYiEABb//vfTP8yy7JolgQAAAAhBmiRsQV/+8AAAAAhBnkJ4gp+XgQAAAAgBnmF0QS+hgAAAAAgBnmNqQS+hgQAAAA5BmmdJqEFomUwIJf/+4QAAAApBnoVFESwT/5yBAAAACAGepmpBL6GB"></video>
 
 <input type="file" id="fileInput" multiple accept="audio/*" hidden>
 <input type="file" id="folderInput" webkitdirectory directory hidden>
@@ -852,7 +858,7 @@ function tryNextSrc(u){
 }
 
 /* ── 상태 ────────────────────────────────────────────────── */
-const S={source:"exhibit",shuffle:true,repeatOne:false,cf:4,gap:0,playing:false,
+const S={source:"exhibit",shuffle:true,repeatOne:false,cf:4,gap:0,playing:false,wake:true,
          units:[],cur:null,curTrack:null,bag:[],advancing:false,waiting:false,
          gapTimer:null,favs:new Set()};
 const $=s=>document.querySelector(s);
@@ -1003,6 +1009,7 @@ function play(track,manual){
   masterGain.gain.cancelScheduledValues(now());
   masterGain.gain.setValueAtTime(volTarget(),now());
   disp.art=[]; disp.stage=[];
+  keepAwake(true);
   paintMeta(); renderQueue(); updateIcons();
 }
 function paintMeta(){
@@ -1037,13 +1044,13 @@ function togglePlay(){
   if(!S.curTrack){ const t=nextTrack(); if(t) play(t,true); return; }
   initAudio();
   if(S.playing){
-    S.playing=false; clearGap(); updateIcons();
+    S.playing=false; clearGap(); updateIcons(); keepAwake(false);
     S.units.forEach(u=>u.pause());
     try{ masterGain.gain.cancelScheduledValues(now());
       masterGain.gain.setValueAtTime(masterGain.gain.value,now());
       masterGain.gain.linearRampToValueAtTime(.0001,now()+.2); }catch(e){}
   }else{
-    S.playing=true; updateIcons();
+    S.playing=true; updateIcons(); keepAwake(true);
     ctx.resume().then(()=>{
       S.units.forEach(u=>u.resume());
       masterGain.gain.setValueAtTime(.0001,now());
@@ -1146,22 +1153,57 @@ function addFiles(files){
     $("#optSheet").classList.remove("on"); openSheet($("#queueSheet")); }
 }
 
-/* 전시 모드 */
+/* ── 화면 꺼짐 방지 ──────────────────────────────────────
+   재생하는 동안 계속 유지합니다. Wake Lock은 https(또는 localhost)에서만
+   허용되므로, 안 되는 환경에서는 소리 없는 영상을 돌려 화면을 붙잡습니다. */
 let wakeLock=null;
-async function keepAwake(on){
-  try{ if(on&&"wakeLock" in navigator) wakeLock=await navigator.wakeLock.request("screen");
-       else if(wakeLock){wakeLock.release();wakeLock=null;} }catch(e){}
+function setWakeHint(t){ const e=$("#wakeHint"); if(e) e.textContent=t; }
+async function acquireWake(){
+  if(!S.wake||!S.playing) return;
+  if("wakeLock" in navigator){
+    try{
+      if(wakeLock) return;
+      wakeLock=await navigator.wakeLock.request("screen");
+      wakeLock.addEventListener("release",()=>{ wakeLock=null; });
+      setWakeHint("켜짐 — 재생 중 화면이 꺼지지 않습니다");
+      return;
+    }catch(e){ wakeLock=null; }
+  }
+  try{                                        /* 대체 수단 */
+    const v=$("#nosleep"); v.muted=true;
+    const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{});
+    setWakeHint(location.protocol==="file:"
+      ? "보조 방식으로 동작 중 — 웹주소로 열면 더 확실합니다"
+      : "보조 방식으로 동작 중");
+  }catch(e){ setWakeHint("이 브라우저에서는 지원되지 않습니다"); }
 }
+function releaseWake(){
+  try{ if(wakeLock){ wakeLock.release(); wakeLock=null; } }catch(e){}
+  try{ $("#nosleep").pause(); }catch(e){}
+  setWakeHint(S.wake?"재생을 시작하면 켜집니다":"꺼짐");
+}
+function keepAwake(on){ if(on) acquireWake(); else releaseWake(); }
+/* 브라우저가 조용히 해제하는 일이 있어 주기적으로 다시 잡습니다 */
+setInterval(()=>{ if(S.playing&&S.wake&&!document.hidden&&!wakeLock) acquireWake(); },20000);
+document.addEventListener("visibilitychange",()=>{
+  if(!document.hidden&&S.playing&&S.wake) acquireWake();
+});
+$("#swWake").onclick=()=>{
+  S.wake=!S.wake;
+  $("#swWake").classList.toggle("on",S.wake);
+  keepAwake(S.wake&&S.playing);
+};
+
+/* 전시 모드 */
 $("#stageBtn").onclick=()=>{
   $("#stage").classList.add("on"); keepAwake(true);
   if(document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{});
   if(!S.curTrack){const t=nextTrack();if(t)play(t,true);}
 };
 $("#stage").onclick=()=>{
-  $("#stage").classList.remove("on"); keepAwake(false);
+  $("#stage").classList.remove("on");   /* 재생 중이면 화면 유지는 계속됩니다 */
   if(document.fullscreenElement&&document.exitFullscreen) document.exitFullscreen().catch(()=>{});
 };
-document.addEventListener("visibilitychange",()=>{if(!document.hidden&&S.playing)keepAwake(true)});
 document.addEventListener("keydown",e=>{
   if(e.target.tagName==="INPUT")return;
   if(e.code==="Space"){e.preventDefault();togglePlay();}
