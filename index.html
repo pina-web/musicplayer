@@ -292,6 +292,13 @@ const exTracks=EX_LIST.map(([n,d])=>({
   artist:"요피의 전시음악플레이리스트", album:"요피의 전시음악플레이리스트", genre:"요피의 전시음악플레이리스트", dur:d,
   file:EX_BASE+"("+n+").mp3", srcs:srcCandidates(n), url:srcCandidates(n)[0]
 }));
+/* 편안한 피아노 발라드 6곡 — music/ballad-01.mp3 ~ ballad-06.mp3 */
+const BAL_LIST=[[1,168],[2,181],[3,185],[4,184],[5,190],[6,178]];
+const balTracks=BAL_LIST.map(([n,d])=>({
+  id:"b"+n, kind:"url", num:n, title:"편안한 피아노 발라드 "+n, form:"",
+  artist:"pinocchia", album:"편안한 피아노 발라드", genre:"편안한 피아노 발라드", dur:d,
+  file:"ballad-"+pad2(n)+".mp3", srcs:["music/ballad-"+pad2(n)+".mp3"], url:"music/ballad-"+pad2(n)+".mp3"
+}));
 let fileTracks=[];
 
 /* ── 오디오 ─────────────────────────────────────────────── */
@@ -867,7 +874,8 @@ const now=()=>ctx?ctx.currentTime:0;
 const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
 
 const SOURCES=[
-  {k:"exhibit",emoji:"🎼",name:"요피의 전시음악플레이리스트",desc:"직접 연주한 피아노곡 33곡"},
+  {k:"exhibit",emoji:"🎼",name:"요피의 전시음악플레이리스트",desc:"직접 연주한 피아노곡 33곡 + 피아노 발라드 6곡"},
+  {k:"ballad", emoji:"🎹",name:"편안한 피아노 발라드",desc:"새로 넣은 발라드 6곡만"},
   {k:"gen",    emoji:"🎧",name:"생성 음악 전체",desc:"브라우저가 그 자리에서 연주하는 200곡"}
 ].concat(Object.keys(MOODS).map(k=>({k:"m:"+k,emoji:MOODS[k].emoji,
     name:MOODS[k].name,desc:MOODS[k].desc}))).concat([
@@ -876,11 +884,12 @@ const SOURCES=[
   {k:"fav",    emoji:"⭐",name:"즐겨찾기",  desc:"별을 누른 곡만 모아서"}
 ]);
 function tracksOf(k){
-  if(k==="exhibit") return exTracks;
+  if(k==="exhibit") return exTracks.concat(balTracks);
+  if(k==="ballad")  return balTracks;
   if(k==="gen")     return genTracks;
   if(k==="file")    return fileTracks;
-  if(k==="all")     return exTracks.concat(genTracks,fileTracks);
-  if(k==="fav")     return exTracks.concat(genTracks,fileTracks).filter(t=>S.favs.has(t.id));
+  if(k==="all")     return exTracks.concat(balTracks,genTracks,fileTracks);
+  if(k==="fav")     return exTracks.concat(balTracks,genTracks,fileTracks).filter(t=>S.favs.has(t.id));
   if(k.indexOf("m:")===0) return genTracks.filter(t=>t.mood===k.slice(2));
   return exTracks;
 }
